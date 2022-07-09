@@ -83,6 +83,10 @@ source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "baf1de4339761588bc0619e3cbc0120ee582ebb74b53b4efbf79117bd2da40fd"
 
 [[package]]
+name = "domain"
+version = "0.1.0"
+
+[[package]]
 name = "fnv"
 version = "1.0.7"
 source = "registry+https://github.com/rust-lang/crates.io-index"
@@ -375,6 +379,14 @@ dependencies = [
 ]
 
 [[package]]
+name = "repository"
+version = "0.1.0"
+
+[[package]]
+name = "router"
+version = "0.1.0"
+
+[[package]]
 name = "rust-ddd-practice"
 version = "0.1.0"
 dependencies = [
@@ -422,6 +434,10 @@ dependencies = [
  "ryu",
  "serde",
 ]
+
+[[package]]
+name = "service"
+version = "0.1.0"
 
 [[package]]
 name = "signal-hook-registry"
@@ -575,6 +591,10 @@ name = "unicode-ident"
 version = "1.0.1"
 source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "5bd2fe26506023ed7b5e1e315add59d6f584c621d037f9368fea9cfb988f368c"
+
+[[package]]
+name = "usecase"
+version = "0.1.0"
 
 [[package]]
 name = "want"
