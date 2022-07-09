@@ -31,7 +31,7 @@ struct Schedule {
     reservation: HashMap<SeetId, Sheet>
 }
 
-struct TheaterData {
+pub struct TheaterData {
     name: String,
     schedule: Schedule
 }
