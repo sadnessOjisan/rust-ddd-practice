@@ -1,0 +1,13 @@
+mysql:
+  image: mysql
+  volumes:
+    ## 永続化 ##
+    - "./mysql/data:/var/lib/mysql"
+    ## 初期データ投入 ##
+    - "./mysql/init:/docker-entrypoint-initdb.d"
+  ports:
+    - "3306:3306"
+  environment:
+    - MYSQL_ROOT_PASSWORD=rust-ddd-practice
+    - MYSQL_ALLOW_EMPTY_PASSWORD=local-pass
+    - MYSQL_RANDOM_ROOT_PASSWORD=local-pass

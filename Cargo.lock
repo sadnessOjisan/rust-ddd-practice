@@ -437,6 +437,9 @@ dependencies = [
 [[package]]
 name = "service"
 version = "0.1.0"
+dependencies = [
+ "domain",
+]
 
 [[package]]
 name = "signal-hook-registry"
@@ -594,6 +597,9 @@ checksum = "5bd2fe26506023ed7b5e1e315add59d6f584c621d037f9368fea9cfb988f368c"
 [[package]]
 name = "usecase"
 version = "0.1.0"
+dependencies = [
+ "domain",
+]
 
 [[package]]
 name = "want"

@@ -1,15 +1,16 @@
 use std::collections::HashMap;
 
-enum Gender {
+pub enum Gender {
     Male,
     Female,
     NoAnswer
 }
 
-struct User {
-    id: u32,
-    age: u8,
-    gender: Gender
+// type-builder
+pub struct User {
+    pub id: u32,
+    pub age: u8,
+    pub gender: Gender
 }
 
 struct Movie {
