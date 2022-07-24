@@ -1,20 +1,21 @@
 use std::collections::HashMap;
 
-enum Gender {
+pub enum Gender {
     Male,
     Female,
-    NoAnswer
+    NoAnswer,
 }
 
-struct User {
-    id: u32,
-    age: u8,
-    gender: Gender
+// type-builder
+pub struct User {
+    pub id: u32,
+    pub age: u8,
+    pub gender: Gender,
 }
 
 struct Movie {
     id: u32,
-    title: String
+    title: String,
 }
 
 struct SeetId(u16);
@@ -28,12 +29,12 @@ struct Sheet {
 struct Schedule {
     movie: Movie,
     date: String,
-    reservation: HashMap<SeetId, Sheet>
+    reservation: HashMap<SeetId, Sheet>,
 }
 
 pub struct TheaterData {
     name: String,
-    schedule: Schedule
+    schedule: Schedule,
 }
 
 fn main() {

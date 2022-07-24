@@ -7,3 +7,6 @@ edition = "2021"
 
 [dependencies]
 domain = {path= "../domain"}
+futures-util = "0.3.21"
+sqlx = { version = "0.6.0", features = [ "runtime-tokio-native-tls" , "mysql" ] }
+tokio = { version = "1.20.0", features = ["full"] }
