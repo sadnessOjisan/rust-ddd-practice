@@ -6,8 +6,6 @@ use service::{UserService, UserServiceComponent};
 //    fn getUser(&self, id: u16) -> User;
 // }
 
-
-
 // impl Usecase {
 //     fn new() -> Usecase{}
 // }
@@ -25,7 +23,7 @@ use service::{UserService, UserServiceComponent};
 // Usecase (struct) -> 本体、全てのservice呼べる（Userに限らず）、全パターンの各ユースケースを実装する
 // UserUsecase (trait) -> 各ユースケース。
 // UserUsecase (trait)
-// serviceProvider(trait) 
+// serviceProvider(trait)
 // Service ()
 
 // fn main(){

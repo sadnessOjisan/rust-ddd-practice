@@ -9,7 +9,7 @@ pub trait UserService: UserRepositoryComponent {
 }
 
 pub struct UserServiceImpl<Repo: UserRepository> {
-    repo: Repo
+    repo: Repo,
 }
 
 impl<T: UserRepositoryComponent> UserService for T {}
@@ -27,20 +27,17 @@ mod tests {
 
     #[test]
     fn test_get_user_by_id() {
-        struct UserMockRepository {
-        }
-        
-        impl UserRepository for UserMockRepository{
+        struct UserMockRepository {}
+
+        impl UserRepository for UserMockRepository {
             fn getUserById(&self, id: i32) -> () {
                 ();
             }
         }
 
-        let mock = UserMockRepository{};
+        let mock = UserMockRepository {};
 
-        let service = UserServiceImpl {
-            repo: mock
-        };
+        let service = UserServiceImpl { repo: mock };
         let res = service.repo.getUserById(1);
         assert_eq!((), res);
     }
