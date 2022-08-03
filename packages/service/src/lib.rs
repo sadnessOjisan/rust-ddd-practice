@@ -1,44 +1,44 @@
-use domain::User;
-use repository::{UserRepository, UserRepositoryComponent};
+use repository::UserRepository;
+
+// 上述記事中のUserRepositoryComponent相当
+pub trait UserRepositoryComponent {
+    type UserRepo: UserRepository;
+    fn user_repository(&self) -> Self::UserRepo;
+}
 
 pub trait UserService: UserRepositoryComponent {
     fn get_user_by_id(&self, id: i32) -> () {
-        let repo = self.user_dao();
-        let data = repo.getUserById(id);
+        self.user_repository().find_user(id)
     }
-}
-
-pub struct UserServiceImpl<Repo: UserRepository> {
-    repo: Repo,
 }
 
 impl<T: UserRepositoryComponent> UserService for T {}
 
-pub trait UserServiceComponent {
-    type UserService: UserService;
-    fn user_service(&self) -> Self::UserService;
+struct UserServiceImpl<Service: UserService> {
+    service: Service,
 }
 
 #[cfg(test)]
 mod tests {
-    use repository::UserRepository;
-
-    use crate::UserServiceImpl;
+    use crate::{UserRepository, UserRepositoryComponent, UserService, UserServiceImpl};
 
     #[test]
     fn test_get_user_by_id() {
-        struct UserMockRepository {}
-
-        impl UserRepository for UserMockRepository {
-            fn getUserById(&self, id: i32) -> () {
-                ();
+        struct MockRepository {}
+        impl UserRepository for MockRepository {
+            fn find_user(&self, id: i32) -> () {}
+        }
+        struct DaoComponent {}
+        impl UserRepositoryComponent for DaoComponent {
+            type UserRepo = MockRepository;
+            fn user_repository(&self) -> Self::UserRepo {
+                MockRepository {}
             }
         }
 
-        let mock = UserMockRepository {};
-
-        let service = UserServiceImpl { repo: mock };
-        let res = service.repo.getUserById(1);
-        assert_eq!((), res);
+        let mock_repo = DaoComponent {};
+        let service = UserServiceImpl { service: mock_repo };
+        let user = service.service.get_user_by_id(2);
+        assert_eq!(user, ());
     }
 }

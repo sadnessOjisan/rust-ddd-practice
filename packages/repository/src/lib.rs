@@ -24,19 +24,11 @@ use sqlx::mysql::MySqlPoolOptions;
 //     }
 // }
 
+// 上述記事中のUserRepository相当
 pub trait UserRepository {
-    fn getUserById(&self, id: i32) -> ();
+    fn find_user(&self, id: i32) -> ();
 }
 
-struct UserDbRepository {}
-
-impl UserRepository for UserDbRepository {
-    fn getUserById(&self, id: i32) -> () {
-        // ...
-    }
-}
-
-pub trait UserRepositoryComponent {
-    type UserRepository: UserRepository;
-    fn user_dao(&self) -> Self::UserRepository;
+struct UserRepositoryImpl<Repo: UserRepository> {
+    repo: Repo,
 }
