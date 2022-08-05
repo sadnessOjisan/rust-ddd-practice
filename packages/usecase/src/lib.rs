@@ -26,8 +26,7 @@ mod tests {
     #[test]
     fn test_get_user_by_id() {
         struct MockService {}
-        impl UserService for MockService {
-        }
+        impl UserService for MockService {}
         impl UserRepositoryComponent for MockService {}
         struct ServiceComponent {}
         impl UserServiceComponent for ServiceComponent {
@@ -38,7 +37,9 @@ mod tests {
         }
 
         let mock_service = ServiceComponent {};
-        let usecase = UserUsecaseImpl { usecase: mock_service };
+        let usecase = UserUsecaseImpl {
+            usecase: mock_service,
+        };
         let user = usecase.service.get_user_by_id(2);
         assert_eq!(user, ());
     }
