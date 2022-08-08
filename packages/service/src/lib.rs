@@ -1,44 +1,32 @@
+use async_trait::async_trait;
 use domain::User;
-use repository::{UserRepository, UserRepositoryComponent};
-
-pub trait UserService: UserRepositoryComponent {
-    fn get_user_by_id(&self, id: i32) -> () {
-        let repo = self.user_dao();
-        let data = repo.getUserById(id);
-    }
+use mockall::automock;
+use repository::UserRepository;
+#[automock]
+#[async_trait]
+pub trait UserService {
+    // fn new() -> Self;
+    // ここに self ないと継承先で呼べない
+    async fn get_user_by_id(&self) -> User;
 }
 
-pub struct UserServiceImpl<Repo: UserRepository> {
-    repo: Repo,
+pub struct UserServiceImpl<T>
+where
+    T: UserRepository + Send + Sync,
+{
+    pub user_repository: T,
 }
 
-impl<T: UserRepositoryComponent> UserService for T {}
-
-pub trait UserServiceComponent {
-    type UserService: UserService;
-    fn user_service(&self) -> Self::UserService;
-}
-
-#[cfg(test)]
-mod tests {
-    use repository::UserRepository;
-
-    use crate::UserServiceImpl;
-
-    #[test]
-    fn test_get_user_by_id() {
-        struct UserMockRepository {}
-
-        impl UserRepository for UserMockRepository {
-            fn getUserById(&self, id: i32) -> () {
-                ();
-            }
-        }
-
-        let mock = UserMockRepository {};
-
-        let service = UserServiceImpl { repo: mock };
-        let res = service.repo.getUserById(1);
-        assert_eq!((), res);
+#[async_trait]
+impl<T: UserRepository + Send + Sync> UserService for UserServiceImpl<T> {
+    async fn get_user_by_id(&self) -> User {
+        let dto = self.user_repository.get_user_by_id();
+        let user = User {
+            id: dto.id,
+            age: dto.age,
+            gender: dto.gender,
+        };
+        self.user_repository.getUsers().await;
+        user
     }
 }

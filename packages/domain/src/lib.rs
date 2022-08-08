@@ -1,5 +1,5 @@
 use std::collections::HashMap;
-
+#[derive(Debug, PartialEq)]
 pub enum Gender {
     Male,
     Female,
@@ -7,6 +7,7 @@ pub enum Gender {
 }
 
 // type-builder
+#[derive(Debug, PartialEq)]
 pub struct User {
     pub id: u32,
     pub age: u8,

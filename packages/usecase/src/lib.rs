@@ -1,58 +1,24 @@
+use async_trait::async_trait;
 use domain::User;
-use service::{UserService, UserServiceComponent};
-//
+use mockall::automock;
+use service::UserService;
 
-// trait UserService  {
-//    fn getUser(&self, id: u16) -> User;
-// }
-
-// impl Usecase {
-//     fn new() -> Usecase{}
-// }
-
-// impl UserUsecase for Usecase {}
-// impl MoiveUsecae for Usecase {}
-
-// trait QueryUsecase: UserService + MoiveService {}
-
-// trait serviceProvider {
-//     type UseCase: QueryUsecase;
-//     fn provideUserUsecase() -> Self::Usecase;
-// }
-
-// Usecase (struct) -> 本体、全てのservice呼べる（Userに限らず）、全パターンの各ユースケースを実装する
-// UserUsecase (trait) -> 各ユースケース。
-// UserUsecase (trait)
-// serviceProvider(trait)
-// Service ()
-
-// fn main(){
-//     let repo = Repository {}
-
-//     let controller = Controller {
-//         provier: serviceProvider,
-//         repo: repo;
-//     };
-
-//     let service = Service {};
-
-//     let usecase = Usecase {
-//         service: &service
-//     };
-
-//     controller.get("/", usecase).get("/:id", userUsecase)
-// }
-
-pub trait UserUsecase: UserServiceComponent {
-    fn get_user_by_id(&self, id: i32) -> () {
-        let service = self.user_service();
-        let user = service.get_user_by_id(id);
-    }
+#[async_trait]
+#[automock]
+pub trait UserUsecase {
+    async fn get_user_by_id(&self, id: i32) -> User;
 }
 
-impl<T: UserServiceComponent> UserUsecase for T {}
+pub struct UserUsecaseImpl<T>
+where
+    T: UserService + Send + Sync,
+{
+    pub user_service: T,
+}
 
-trait UserUsecaseComponent {
-    type UserUsecase: UserUsecase;
-    fn user_usecase(&self) -> Self::UserUsecase;
+#[async_trait]
+impl<T: UserService + Send + Sync> UserUsecase for UserUsecaseImpl<T> {
+    async fn get_user_by_id(&self, id: i32) -> User {
+        self.user_service.get_user_by_id().await
+    }
 }
