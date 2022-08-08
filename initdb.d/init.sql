@@ -13,6 +13,8 @@ CREATE TABLE user(
 );
 
 INSERT INTO user (id, name, age, gender) VALUES (1, "Nagaoka", 18, 1);
+INSERT INTO user (id, name, age, gender) VALUES (2, "Nagaoka", 18, 1);
+INSERT INTO user (id, name, age, gender) VALUES (3, "Nagaoka", 18, 1);
 
 --  CREATE TABLE IF NOT EXISTS `rust_ddd_practice_schema`.`users` (
 --    `id` INT NOT NULL COMMENT 'ユーザID',
