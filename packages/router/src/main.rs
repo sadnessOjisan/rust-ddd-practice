@@ -2,7 +2,7 @@ use axum::{response::Html, routing::get, Router};
 use repository::RepositoryImpl;
 use service::UserServiceImpl;
 use std::net::SocketAddr;
-use usecase::{UserUsecaseImpl, UserUsecase};
+use usecase::{UserUsecase, UserUsecaseImpl};
 
 #[tokio::main]
 async fn main() {

@@ -6,7 +6,7 @@ use service::UserService;
 #[async_trait]
 #[automock]
 pub trait UserUsecase {
-   async fn get_user_by_id(&self, id: i32) -> User;
+    async fn get_user_by_id(&self, id: i32) -> User;
 }
 
 pub struct UserUsecaseImpl<T>
