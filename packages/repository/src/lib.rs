@@ -1,6 +1,6 @@
 use async_trait::async_trait;
 use domain::Gender;
-use futures_util::{Future, TryStreamExt};
+use futures_util::TryStreamExt;
 use sqlx::mysql::MySqlPoolOptions;
 pub struct UserDTO {
     pub id: u32,
