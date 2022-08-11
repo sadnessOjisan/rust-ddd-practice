@@ -1,13 +1,34 @@
-use axum::{response::Html, routing::get, Router};
+use axum::Extension;
 use repository::RepositoryImpl;
 use service::UserServiceImpl;
-use std::net::SocketAddr;
+use std::{net::SocketAddr, sync::Arc};
 use usecase::{UserUsecase, UserUsecaseImpl};
+
+pub struct Modules {
+    // trait を食わせるとNG
+    user_usecase: UserUsecaseImpl<UserServiceImpl<RepositoryImpl>>,
+} // Some shared state used throughout our application
 
 #[tokio::main]
 async fn main() {
-    // build our application with a route
-    let app = Router::new().route("/", get(handler));
+    use axum::{routing::get, Extension, Router};
+    use std::sync::Arc;
+    let repo = RepositoryImpl {};
+    let service = UserServiceImpl {
+        user_repository: repo,
+    };
+    let usecase = UserUsecaseImpl {
+        user_service: service,
+    };
+    let state = Arc::new(Modules {
+        user_usecase: usecase,
+    });
+
+    let app = Router::new()
+        .route("/", get(handler))
+        // Add middleware that inserts the state into all incoming request's
+        // extensions.
+        .layer(Extension(state));
 
     // run it
     let addr = SocketAddr::from(([127, 0, 0, 1], 3000));
@@ -18,14 +39,8 @@ async fn main() {
         .unwrap();
 }
 
-async fn handler() -> String {
-    let repo = RepositoryImpl {};
-    let service = UserServiceImpl {
-        user_repository: repo,
-    };
-    let usecase = UserUsecaseImpl {
-        user_service: service,
-    };
+async fn handler(state: Extension<Arc<Modules>>) -> String {
+    let usecase = &state.0.user_usecase;
     let actual = usecase.get_user_by_id(1).await;
     format!("<h1>Hello, World! {}</h1>", actual.id)
 }
